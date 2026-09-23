@@ -253,7 +253,58 @@
     clip-path: unset;
 }
 </style><style>/* 手機版（Framer 斷點 ≤809px）不顯示電腦版 nav 連結，只用右側選單 */@media (max-width:809.98px){nav.framer-v-1kat36o .framer-j6d1cx,nav.framer-v-1kat36o .framer-b6ma5x,nav.framer-v-1kat36o .framer-16tuund{display:none!important}}</style>
+<style>/* 手機版右側漢堡選單（僅 ≤809px；樣式依 Framer 首頁手機版） */
+.hy-mbtn,.hy-mmenu{display:none}
+@media (max-width:809.98px){
+nav.framer-v-1kat36o{position:relative;padding-left:16px!important;padding-right:16px!important}
+.hy-mbtn{display:block;position:absolute;top:12px;right:16px;width:44px;height:44px;padding:0;margin:0;border:0;background:transparent;cursor:pointer;z-index:2;-webkit-tap-highlight-color:transparent}
+.hy-mbtn span{position:absolute;left:6px;width:32px;height:3px;background:#ece8df;transition:transform .3s ease,top .3s ease}
+.hy-mbtn span:nth-child(1){top:14px}.hy-mbtn span:nth-child(2){top:27px}
+.hy-mmenu{position:fixed;inset:0;z-index:9999;background:rgb(20,20,20);overflow-y:auto;-webkit-overflow-scrolling:touch}
+.hy-mmenu.is-open{display:block}
+.hy-mmenu .hy-mbtn{position:absolute}
+.hy-mmenu .hy-mbtn span:nth-child(1),.hy-mmenu .hy-mbtn span:nth-child(2){top:20px}
+.hy-mmenu .hy-mbtn span:nth-child(1){transform:rotate(45deg)}.hy-mmenu .hy-mbtn span:nth-child(2){transform:rotate(-45deg)}
+.hy-mlogo{position:absolute;top:21px;left:16px;font-family:"Funnel Sans","Funnel Sans Placeholder",sans-serif;font-size:20px;font-weight:500;line-height:28px;letter-spacing:-.8px;color:#ece8df;text-decoration:underline}
+.hy-mlinks{padding:87px 16px 40px;display:flex;flex-direction:column;align-items:flex-start;gap:8px}
+.hy-mlinks a.hy-mlink{font-family:"Funnel Sans","Funnel Sans Placeholder",sans-serif;font-size:32px;font-weight:500;line-height:38.4px;letter-spacing:-.64px;color:#ece8df;text-decoration:underline}
+.hy-mlinks a.hy-mcv{margin-top:32px;display:inline-block;padding:12px 24px;border-radius:4px;background:#ece8df;color:rgb(20,20,20);font-family:"Funnel Sans","Funnel Sans Placeholder",sans-serif;font-size:20px;font-weight:500;line-height:24px;letter-spacing:-.6px;text-decoration:none}
+}</style>
+<script>(function(){function init(){var nav=document.querySelector("nav.framer-v-1kat36o");if(!nav||document.querySelector(".hy-mmenu"))return;function href(sel){var a=nav.querySelector(sel+" a[href]");return a?a.getAttribute("href"):null}
+var home=href(".framer-14z8ve3")||"../index.html",items=[["work",href(".framer-j6d1cx")],["about me",href(".framer-b6ma5x")],["contact",document.getElementById("start-a-project")?"#start-a-project":"../index.html#start-a-project"]];
+function btn(label){var b=document.createElement("button");b.type="button";b.className="hy-mbtn";b.setAttribute("aria-label",label);b.innerHTML="<span></span><span></span>";return b}
+var open=btn("開啟選單");open.setAttribute("aria-expanded","false");nav.appendChild(open);
+var m=document.createElement("div");m.className="hy-mmenu";m.setAttribute("role","dialog");m.setAttribute("aria-modal","true");
+var logo=document.createElement("a");logo.className="hy-mlogo";logo.href=home;logo.textContent="hanyun yeh";m.appendChild(logo);
+var close=btn("關閉選單");m.appendChild(close);
+var box=document.createElement("div");box.className="hy-mlinks";items.forEach(function(it){if(!it[1])return;var a=document.createElement("a");a.className="hy-mlink";a.href=it[1];a.textContent=it[0];box.appendChild(a)});
+var cv=document.createElement("a");cv.className="hy-mcv";cv.href="https://drive.google.com/drive/folders/1_h-e0HPm_tXOsTyybiGYsnTBuct0ZTQZ?usp=drive_link";cv.target="_blank";cv.rel="noopener";cv.textContent="Download resume";box.appendChild(cv);
+m.appendChild(box);document.body.appendChild(m);
+function set(o){m.classList.toggle("is-open",o);open.setAttribute("aria-expanded",o?"true":"false");document.documentElement.style.overflow=o?"hidden":""}
+open.addEventListener("click",function(){set(true)});close.addEventListener("click",function(){set(false)});
+m.addEventListener("click",function(e){if(e.target.closest("a"))set(false)});
+document.addEventListener("keydown",function(e){if(e.key==="Escape")set(false)});
+window.addEventListener("pageshow",function(){set(false)});
+window.addEventListener("resize",function(){if(window.innerWidth>=810)set(false)})}
+if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();</script>
 </head>
+<script>
+  // 頁面載入後自動攔截並銷毀 Lenis 滾動實例
+  window.addEventListener('DOMContentLoaded', () => {
+    // 移除 Lenis 在 html/body 上的鎖定 class
+    document.documentElement.classList.remove('lenis', 'lenis-smooth', 'lenis-stopped');
+    document.body.classList.remove('lenis', 'lenis-smooth', 'lenis-stopped');
+
+    // 如果 Lenis 實例存在，直接銷毀它
+    if (window.lenis) {
+      window.lenis.destroy();
+    }
+
+    // 阻止 Lenis 繼續攔截事件
+    window.addEventListener('wheel', (e) => e.stopPropagation(), { capture: true });
+    window.addEventListener('touchmove', (e) => e.stopPropagation(), { capture: true });
+  }, true);
+</script>
 <body>
 		<!-- Start of bodyStart -->
     
@@ -269,7 +320,7 @@ MixerBox AI 整合寫作、對話、翻譯等多元 AI 工具，讓使用者以 
                 <script type="framer/appear" id="__framer__appearAnimationsContent">{"1xwcqop":{"default":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}},"11mivnj":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}},"1o9ywng":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}}},"1n14tsy":{"default":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":0.9,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}},"11mivnj":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":0.9,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}},"1o9ywng":{"initial":{"opacity":1,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"x":0,"y":1500},"animate":{"opacity":0.9,"rotate":0,"rotateX":0,"rotateY":0,"scale":1,"skewX":0,"skewY":0,"transition":{"damping":80,"delay":0,"mass":1,"stiffness":400,"type":"spring"},"x":0,"y":0}}}}</script>
                 <script type="framer/appear" id="__framer__breakpoints">[{"hash":"rlr6jh","mediaQuery":"(min-width: 1200px)"},{"hash":"12mrq98","mediaQuery":"(min-width: 810px) and (max-width: 1199.98px)"},{"hash":"ptau51","mediaQuery":"(max-width: 809.98px)"},{"hash":"19drujv","mediaQuery":"(min-width: 1200px)"},{"hash":"11mivnj","mediaQuery":"(min-width: 810px) and (max-width: 1199.98px)"},{"hash":"1o9ywng","mediaQuery":"(max-width: 809.98px)"}]</script><script data-framer-appear-animation="no-preference">(()=>{function c(i,o,s){if(window.__framer_disable_appear_effects_optimization__||typeof animator>"u")return;let e={detail:{bg:document.hidden}};requestAnimationFrame(()=>{let a="framer-appear-start";performance.mark(a,e),animator.animateAppearEffects(JSON.parse(window.__framer__appearAnimationsContent.text),(m,p,d)=>{let t=document.querySelector(m);if(t)for(let[r,f]of Object.entries(p))animator.startOptimizedAppearAnimation(t,r,f,d[r])},i,o,s&&window.matchMedia("(prefers-reduced-motion:reduce)").matches===!0,animator.getActiveVariantHash(JSON.parse(window.__framer__breakpoints.text)));let n="framer-appear-end";performance.mark(n,e),performance.measure("framer-appear",{start:a,end:n,detail:e.detail})})}return c})()("data-framer-appear-id","__Appear_Animation_Transform__",false)</script>
 	<script>typeof document<"u"&&(window.process={...window.process,env:{...window.process?.env,NODE_ENV:"production"}});</script>
-	<link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/rolldown-runtime.Dh6celcD.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/react.BpKPsBQp.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/motion.Dre1ioGm.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/framer.B0ib8DGe.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/d8Qnqd6MR.BhdtXvNj.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/A86GEqgmQ.DUP6jinN.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/shared-lib.CDPtmYd1.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/klu3wV4vw.BlAHcb1l.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/ZtjUDkJXlC7NVPVh6xNMKkgfX5dwoBD_LL_JwU0iybg.CaWaac4a.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/zhRz_0Rq3.hyVGQTrQ.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/LOAP8LaTY.DFeo3KTK.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/XYu787QWh.BO4rWPRH.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/frly26fbY.wlk7wJxs.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/NPsCVemPOog-hUoqabCTa98uxfPGIo-hMePOAPvyWmc.C6HUWm8v.mjs"><script type="module" async data-framer-bundle="main" fetchpriority="low" src="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/script_main.CFA0FJTj.mjs"></script><div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
+	<link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/rolldown-runtime.Dh6celcD.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/react.BpKPsBQp.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/motion.Dre1ioGm.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/framer.B0ib8DGe.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/d8Qnqd6MR.BhdtXvNj.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/A86GEqgmQ.DUP6jinN.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/shared-lib.CDPtmYd1.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/klu3wV4vw.BlAHcb1l.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/ZtjUDkJXlC7NVPVh6xNMKkgfX5dwoBD_LL_JwU0iybg.CaWaac4a.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/zhRz_0Rq3.hyVGQTrQ.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/LOAP8LaTY.DFeo3KTK.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/XYu787QWh.BO4rWPRH.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/frly26fbY.wlk7wJxs.mjs"><link rel="modulepreload" fetchpriority="low" href="https://framerusercontent.com/sites/4KBtgAgCGLwpzVUsYGRxqx/NPsCVemPOog-hUoqabCTa98uxfPGIo-hMePOAPvyWmc.C6HUWm8v.mjs"><script type="module" async data-framer-bundle="main" fetchpriority="low" src="../scripts/script_main.CFA0FJTj.mjs"></script><div id="svg-templates" style="position: absolute; overflow: hidden; bottom: 0; left: 0; width: 0; height: 0; z-index: 0; contain: strict" aria-hidden="true">
 <svg viewBox="0 0 48 48" overflow="visible" id="svg634552131_337"><path d="M 24 0 C 37.255 0 48 10.745 48 24 C 48 37.255 37.255 48 24 48 C 10.745 48 0 37.255 0 24 C 0 10.745 10.745 0 24 0 Z" fill="var(--token-a144ca9a-12e3-46e4-b229-581c790c0a65, rgb(246, 244, 240))" /></svg></div>
 	<!-- Start of bodyEnd -->
     
